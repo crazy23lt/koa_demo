@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "serve": "nodemon app.js"
+    "serve": "nodemon app.js",
+    "serve3100": "nodemon app1.js",
+    "serve3200": "nodemon app2.js"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +17,7 @@
     "koa": "^2.13.0",
     "koa-bodyparser": "^4.3.0",
     "koa-router": "^10.0.0",
+    "koa-static": "^5.0.0",
     "nodemon": "^2.0.6"
   }
 }

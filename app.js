@@ -2,6 +2,7 @@ const Koa = require("koa");
 const Keygrip = require("keygrip");
 const router = require("koa-router")();
 const bodyParser = require("koa-bodyparser");
+const fs = require("fs");
 const app = new Koa();
 // 设置签名的 Cookie 密钥。
 app.keys = new Keygrip(["im a newer secret", "i like turtle"], "sha256");
@@ -18,18 +19,10 @@ app.use(async (ctx, next) => {
   const ms = Date.now() - start;
   ctx.set("X-Response-Time", `${ms}ms`);
 });
-// 响应
-router.get("/hello/:name", async (ctx, next) => {
-  var name = ctx.params.name;
-  ctx.response.body = `<h1>Hello, ${name}!</h1>`;
-});
-router.get("/", async (ctx, next) => {
-  ctx.response.body = "<h1>Index</h1>";
-});
-router.post("/signin",async (ctx,next)=>{
-
-});
-app.use(router.routes());
+const controller = require("./controller");
+app.use(bodyParser());
+app.use(controller());
+// 兜底函数
 app.use(async (ctx, next) => {
   await next();
   ctx.response.type = "text/html";

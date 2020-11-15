@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>cross-origin test</title>
+  </head>
+  <body style="width: 600px; margin: 200px auto; text-align: center">
+    <button onclick="getAjax()">AJAX</button>
+    <button onclick="getJsonP()">JSONP</button>
+  </body>
+  <script type="text/javascript">
+    var baseUrl = "http://localhost:3200";
+
+    function getAjax() {
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", baseUrl + "/ajax", true);
+      xhr.onreadystatechange = function () {
+        // readyState == 4说明请求已完成
+        if ((xhr.readyState == 4 && xhr.status == 200) || xhr.status == 304) {
+          // 从服务器获得数据
+          alert(xhr.responseText);
+        } else {
+          console.log(xhr.status);
+        }
+      };
+      xhr.send();
+    }
+
+    function getJsonP() {
+      var script = document.createElement("script");
+      script.src = baseUrl + "/jsonp?type=json&callback=onBack";
+      document.head.appendChild(script);
+    }
+
+    function onBack(res) {
+      alert("JSONP CALLBACK:  ", JSON.stringify(res));
+      console.info(res);
+    }
+  </script>
+</html>
